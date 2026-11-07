@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: narcotics-traffic-buster
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 2 --bind 0.0.0.0:$PORT app:app
+    plan: starter
+    disk:
+      name: ntb-data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
